@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Candidate from '@/views/Candidate'
 import Courses from '@/views/Courses'
 import Questionnaire from '@/views/Questionnaire'
+import Family from '@/views/Family'
 
 Vue.use(VueRouter);
 
@@ -19,6 +20,10 @@ export default new VueRouter({
     {
       path: '/questionnaire',
       component: Questionnaire
+    },
+    {
+      path: '/family',
+      component: Family,
     }
   ],
 });

@@ -95,7 +95,7 @@
     </Chapter>
     <v-row align="center" justify="center">
       <v-btn
-        to="/courses"
+        @click="onContinue"
         large
         :disabled="isInvalidData"
         width="300px"
@@ -171,6 +171,15 @@ export default {
         state: '',
       },
     };
+  },
+
+  methods: {
+    onContinue() {
+      this.$store.dispatch('candidate/setCandidate', this.candidate);
+      this.$store.dispatch('candidate/setContacts', this.contacts);
+
+      console.log(this.$store);
+    },
   },
 };
 </script>

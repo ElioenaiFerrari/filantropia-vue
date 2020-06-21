@@ -8,12 +8,12 @@ export default {
     family: {},
   },
 
-  mutation: {
+  mutations: {
     setCandidate(state, payload) {
       state.candidate = payload
     },
 
-    setContact(state, payload) {
+    setContacts(state, payload) {
       state.contact = payload;
     },
 
@@ -37,10 +37,10 @@ export default {
       commit('setCandidate', payload)
     },
 
-    setContact({
+    setContacts({
       commit
     }, payload) {
-      commit('setContact', payload)
+      commit('setContacts', payload)
     },
 
     setCourses({

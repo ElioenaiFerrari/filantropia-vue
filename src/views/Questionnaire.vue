@@ -26,10 +26,43 @@
             <v-select
               prepend-inner-icon="mdi-notebook"
               class="ml-4"
-              v-model="questionnaire.didEnem"
+              v-model="questionnaire.enem.did"
               :items="affirmations"
               label="d) O candidato realizou ENEM* nos últimos 03 anos?"
             />
+            <v-col cols="2" v-show="questionnaire.enem.did">
+              <v-text-field
+                :error="questionnaire.enem.year.length != 4"
+                v-model="questionnaire.enem.year"
+                label="Ano"
+                minLength="4"
+                maxLength="4"
+                dense
+                outlined
+              />
+              <v-text-field
+                :error="questionnaire.enem.mean <= 0"
+                v-model.number="questionnaire.enem.mean"
+                label="Média das notas"
+                type="number"
+                dense
+                outlined
+              />
+            </v-col>
+            <span class="body-1 grey--text font-weight-bold">
+              *Se o candidato prestou ENEM nos últimos 03 anos e sua média foi
+              superior a 450 pontos e não zerou na redação, não precisa prestar
+              vestibular da Católica, a nota do ENEM é válida para ingresso na
+              instituição. Caso não tenha prestado o ENEM ou a média seja
+              inferior a 450 pontos deverá fazer o vestibular da Católica para
+              ingressar no Ensino Superior. Declaro ser brasileiro(a) ou
+              naturalizado(a) e não ter concluído nenhum curso de nível
+              superior, bem como me comprometo a apresentar toda a documentação
+              exigida pela instituição na comprovação de informações, em
+              concordância com as normas que regulamentam este processo
+              seletivo.
+            </span>
+            <v-checkbox label="Concordo" v-model="questionnaire.isAcceptTerm" />
           </v-row>
         </v-col>
       </template>
@@ -39,6 +72,7 @@
       <v-btn
         to="/family"
         large
+        :disabled="!questionnaire.isAcceptTerm"
         width="300px"
         class="primary lighten-2 white--text"
         >Avançar</v-btn
@@ -62,7 +96,10 @@ export default {
     },
 
     affirmations() {
-      return ['SIM', 'NÃO'];
+      return [
+        { value: true, text: 'SIM' },
+        { value: false, text: 'NÃO' },
+      ];
     },
   },
 
@@ -70,9 +107,14 @@ export default {
     return {
       questionnaire: {
         training: training[0],
-        isTeacher: 'NÃO',
-        isLinked: 'NÃO',
-        didEnem: 'NÃO',
+        isTeacher: false,
+        isLinked: false,
+        isAcceptTerm: false,
+        enem: {
+          did: false,
+          year: '',
+          mean: '',
+        },
       },
     };
   },
