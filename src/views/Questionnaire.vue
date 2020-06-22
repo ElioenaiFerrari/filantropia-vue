@@ -35,8 +35,8 @@
                 :error="questionnaire.enem.year.length != 4"
                 v-model="questionnaire.enem.year"
                 label="Ano"
-                minLength="4"
-                maxLength="4"
+                minlength="4"
+                maxlength="4"
                 dense
                 outlined
               />
@@ -70,24 +70,23 @@
 
     <v-row align="center" justify="center">
       <v-btn
-        to="/family"
+        @click="onContinue"
         large
         :disabled="!questionnaire.isAcceptTerm"
         width="300px"
         class="primary lighten-2 white--text"
-        >Avançar</v-btn
-      >
+      >Avançar</v-btn>
     </v-row>
   </v-layout>
 </template>
 
 <script>
-import Chapter from '@/components/templates/Chapter';
-import training from '@/database/training';
+import Chapter from "@/components/templates/Chapter";
+import training from "@/database/training";
 
 export default {
   components: {
-    Chapter,
+    Chapter
   },
 
   computed: {
@@ -97,10 +96,10 @@ export default {
 
     affirmations() {
       return [
-        { value: true, text: 'SIM' },
-        { value: false, text: 'NÃO' },
+        { value: true, text: "SIM" },
+        { value: false, text: "NÃO" }
       ];
-    },
+    }
   },
 
   data() {
@@ -112,12 +111,20 @@ export default {
         isAcceptTerm: false,
         enem: {
           did: false,
-          year: '',
-          mean: '',
-        },
-      },
+          year: "",
+          mean: ""
+        }
+      }
     };
   },
+
+  methods: {
+    onContinue() {
+      this.$store.dispatch("candidate/setQuestionnaire", this.questionnaire);
+
+      this.$router.push("/family");
+    }
+  }
 };
 </script>
 

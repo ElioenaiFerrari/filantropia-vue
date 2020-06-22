@@ -7,7 +7,7 @@
             <v-text-field
               prepend-inner-icon="mdi-account"
               v-model="candidate.name"
-              label="Nome"
+              label="Nome*"
               class="dense"
             />
             <v-select
@@ -15,13 +15,9 @@
               class="mx-4"
               v-model="candidate.sex"
               :items="genders"
-              label="Sexo"
+              label="Sexo*"
             />
-            <v-text-field
-              v-model="candidate.birthday"
-              label="Data de nascimento"
-              type="date"
-            />
+            <v-text-field v-model="candidate.birthday" label="Data de nascimento*" type="date" />
           </v-row>
         </v-col>
       </template>
@@ -32,7 +28,7 @@
           <v-row>
             <v-text-field
               v-model="contacts.cellphone"
-              label="Celular"
+              label="DDD + Celular*"
               prepend-inner-icon="mdi-cellphone"
             />
             <v-text-field
@@ -41,34 +37,30 @@
               label="Telefone"
               prepend-inner-icon="mdi-phone"
             />
-            <v-text-field
-              v-model="contacts.email"
-              label="Email"
-              prepend-inner-icon="mdi-email"
-            />
+            <v-text-field v-model="contacts.email" label="Email*" prepend-inner-icon="mdi-email" />
           </v-row>
           <v-row>
             <v-text-field
               v-model="contacts.address"
-              label="Endereço"
+              label="Endereço*"
               prepend-inner-icon="mdi-map-marker"
             />
             <v-text-field
               v-model="contacts.city"
               class="mx-4"
-              label="Cidade"
+              label="Cidade*"
               prepend-inner-icon="mdi-map-marker"
             />
             <v-text-field
               v-model="contacts.district"
-              label="Bairro"
+              label="Bairro*"
               prepend-inner-icon="mdi-map-marker"
             />
           </v-row>
           <v-row>
             <v-text-field
               v-model="contacts.number"
-              label="Número"
+              label="Número*"
               prepend-inner-icon="mdi-counter"
             />
             <v-text-field
@@ -79,7 +71,7 @@
             />
             <v-text-field
               v-model="contacts.zipCode"
-              label="CEP"
+              label="CEP*"
               prepend-inner-icon="mdi-map-marker"
             />
             <v-select
@@ -87,7 +79,7 @@
               class="mx-4"
               v-model="contacts.state"
               :items="states"
-              label="Estado"
+              label="Estado*"
             />
           </v-row>
         </v-col>
@@ -100,19 +92,18 @@
         :disabled="isInvalidData"
         width="300px"
         class="primary lighten-2 white--text"
-        >Avançar</v-btn
-      >
+      >Avançar</v-btn>
     </v-row>
   </v-layout>
 </template>
 
 <script>
-import Chapter from '@/components/templates/Chapter';
-import states from '@/database/states';
+import Chapter from "@/components/templates/Chapter";
+import states from "@/database/states";
 
 export default {
   components: {
-    Chapter,
+    Chapter
   },
   computed: {
     isInvalidData() {
@@ -125,8 +116,8 @@ export default {
       for (let key in this.contacts) {
         if (
           this.contacts[key].length <= 0 &&
-          key != 'adjunct' &&
-          key != 'phone'
+          key != "adjunct" &&
+          key != "phone"
         ) {
           return true;
         }
@@ -138,49 +129,49 @@ export default {
       return states;
     },
     genders() {
-      return ['Masculino', 'Feminino', 'Outros'];
+      return ["Masculino", "Feminino", "Outros"];
     },
     sexIcon() {
       switch (this.candidate.sex) {
-        case 'Masculino':
-          return 'mdi-gender-male';
-        case 'Feminino':
-          return 'mdi-gender-female';
+        case "Masculino":
+          return "mdi-gender-male";
+        case "Feminino":
+          return "mdi-gender-female";
         default:
-          return 'mdi-gender-male-female';
+          return "mdi-gender-male-female";
       }
-    },
+    }
   },
   data() {
     return {
       candidate: {
-        name: '',
-        sex: '',
-        birthday: '',
+        name: "",
+        sex: "",
+        birthday: ""
       },
       contacts: {
-        cellphone: '',
-        phone: '',
-        email: '',
-        address: '',
-        city: '',
-        district: '',
-        number: '',
-        adjunct: '',
-        zipCode: '',
-        state: '',
-      },
+        cellphone: "",
+        phone: "",
+        email: "",
+        address: "",
+        city: "",
+        district: "",
+        number: "",
+        adjunct: "",
+        zipCode: "",
+        state: ""
+      }
     };
   },
 
   methods: {
     onContinue() {
-      this.$store.dispatch('candidate/setCandidate', this.candidate);
-      this.$store.dispatch('candidate/setContacts', this.contacts);
+      this.$store.dispatch("candidate/setCandidate", this.candidate);
+      this.$store.dispatch("candidate/setContacts", this.contacts);
 
-      console.log(this.$store);
-    },
-  },
+      this.$router.push("/courses");
+    }
+  }
 };
 </script>
 

@@ -29,40 +29,46 @@
     <v-row align="center" justify="center">
       <v-btn
         :disabled="isInvalidSelection"
-        to="/questionnaire"
+        @click="onContinue"
         large
         width="300px"
         class="primary lighten-2 white--text"
-        >Avançar</v-btn
-      >
+      >Avançar</v-btn>
     </v-row>
   </v-layout>
 </template>
 
 <script>
-import Chapter from '@/components/templates/Chapter';
-import courses from '@/database/courses';
+import Chapter from "@/components/templates/Chapter";
+import courses from "@/database/courses";
 
 export default {
   components: {
-    Chapter,
+    Chapter
   },
   computed: {
     isInvalidSelection() {
       return this.selectedCourses[0] === this.selectedCourses[1];
     },
     errorMessage() {
-      return this.isInvalidSelection ? 'Os cursos não devem ser iguais' : null;
+      return this.isInvalidSelection ? "Os cursos não devem ser iguais" : null;
     },
     courses() {
       return courses;
-    },
+    }
   },
   data() {
     return {
-      selectedCourses: [courses[0], courses[1]],
+      selectedCourses: [courses[0], courses[1]]
     };
   },
+  methods: {
+    onContinue() {
+      this.$store.dispatch("candidate/setCourses", this.selectedCourses);
+
+      this.$router.push("/questionnaire");
+    }
+  }
 };
 </script>
 
