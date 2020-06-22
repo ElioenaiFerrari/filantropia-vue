@@ -1,9 +1,10 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Candidate from '@/views/Candidate'
-import Courses from '@/views/Courses'
-import Questionnaire from '@/views/Questionnaire'
-import Family from '@/views/Family'
+import Candidate from '@/views/Candidate';
+import Courses from '@/views/Courses';
+import Questionnaire from '@/views/Questionnaire';
+import Family from '@/views/Family';
+import Success from '@/views/Success';
 
 Vue.use(VueRouter);
 
@@ -25,6 +26,9 @@ export default new VueRouter({
       path: '/family',
       component: Family,
     },
-
+    {
+      path: '/success',
+      component: Success,
+    },
   ],
 });
