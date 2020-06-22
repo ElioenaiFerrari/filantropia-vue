@@ -1,9 +1,14 @@
 <template>
   <v-layout column>
     <v-card>
-      <v-card-title loading>
-        <span class="headline">Dados enviados</span>
-        <v-progress-linear indeterminate />
+      <v-card-title>
+        <span class="headline">{{
+          isLoading
+            ? 'Aguarde, seus dados estão sendo enviados.'
+            : 'Dados enviados com sucesso.'
+        }}</span>
+
+        <v-progress-linear v-show="isLoading" class="mt-4" indeterminate />
       </v-card-title>
     </v-card>
   </v-layout>
@@ -19,6 +24,12 @@ export default {
     } else {
       console.log(success);
     }
+  },
+
+  data() {
+    return {
+      isLoading: false,
+    };
   },
 };
 </script>
