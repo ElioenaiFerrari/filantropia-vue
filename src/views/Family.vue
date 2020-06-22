@@ -40,33 +40,36 @@
         </v-col>
       </template>
     </Chapter>
+    <Table
+      v-show="family.vehicle.has"
+      :items="family.vehicle.data"
+      :headers="tableHeaders.vehicle"
+      class="mb-4"
+    />
+    <Table :headers="tableHeaders.family" />
 
-    <v-row align="center" justify="center">
-      <v-btn
-        to="/send"
-        large
-        width="300px"
-        class="primary lighten-2 white--text"
-        >Concluir</v-btn
-      >
+    <v-row class="mt-4" align="center" justify="center">
+      <v-btn to="/send" large width="300px" class="primary lighten-2 white--text">Concluir</v-btn>
     </v-row>
   </v-layout>
 </template>
 
 <script>
-import Chapter from '@/components/templates/Chapter';
-import family from '@/database/family';
+import Chapter from "@/components/templates/Chapter";
+import Table from "@/components/Table";
+import family from "@/database/family";
 
 export default {
   components: {
     Chapter,
+    Table
   },
 
   computed: {
     affirmations() {
       return [
-        { value: true, text: 'SIM' },
-        { value: false, text: 'NÃO' },
+        { value: true, text: "SIM" },
+        { value: false, text: "NÃO" }
       ];
     },
 
@@ -76,43 +79,89 @@ export default {
 
     housingTypes() {
       return family.housingTypes;
-    },
+    }
   },
 
   data() {
     return {
+      tableHeaders: {
+        vehicle: [
+          {
+            text: "Marca/Model",
+            value: "model"
+          },
+          {
+            text: "Ano de fabricação",
+            value: "year"
+          },
+          {
+            text: "Utilização",
+            value: "utility"
+          }
+        ],
+        family: [
+          {
+            text: "Nome",
+            value: "name"
+          },
+          {
+            text: "Idade",
+            value: "age"
+          },
+          {
+            text: "Parentesco",
+            value: "relationship"
+          },
+          {
+            text: "Estado civil",
+            value: "civilStatus"
+          },
+          {
+            text: "Escolaridade",
+            value: "scholarity"
+          },
+          {
+            text: "Profissão",
+            value: "profession"
+          },
+          {
+            text: "Renda mensal (R$)",
+            value: "income"
+          }
+        ]
+      },
       family: {
-        liveWith: 'Sozinho',
-        housingType: 'Própria',
+        liveWith: "Sozinho",
+        housingType: "Própria",
         vehicle: {
           has: false,
-          data: [],
+          data: []
         },
         group: {
           quantity: 1,
-          data: [],
-        },
-      },
+          data: []
+        }
+      }
     };
   },
 
   watch: {
-    'family.group.quantity'(quantity) {
+    "family.group.quantity"(quantity) {
       if (quantity > 1) {
-        this.family.liveWith = 'Família';
+        this.family.liveWith = "Família";
       } else {
-        this.family.liveWith = 'Sozinho';
+        this.family.liveWith = "Sozinho";
       }
     },
 
-    'family.liveWith'(liveWith) {
-      if (liveWith == 'Família') {
+    "family.liveWith"(liveWith) {
+      if (liveWith == "Família") {
         this.family.group.quantity = 2;
       } else {
         this.family.group.quantity = 1;
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
