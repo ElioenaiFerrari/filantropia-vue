@@ -43,6 +43,7 @@
 
     <v-col align="end" v-show="family.vehicle.has">
       <Table :items="family.vehicle.data" :headers="tableHeaders.vehicle" class="mb-4" />
+
       <v-btn @click="onShowDialogVehicle" color="primary darken-2" fab small dark>
         <v-icon>mdi-plus</v-icon>
       </v-btn>
@@ -56,7 +57,7 @@
     </v-col>
 
     <v-row class="mt-4" align="center" justify="center">
-      <v-btn to="/send" large width="300px" class="primary lighten-2 white--text">Concluir</v-btn>
+      <v-btn @click="onSubmit" large width="300px" class="primary lighten-2 white--text">Concluir</v-btn>
     </v-row>
 
     <Dialog
@@ -66,7 +67,7 @@
       :model="showDialogVehicle"
     >
       <template v-slot:content>
-        <v-text-field v-model="dialogs.vehicle.model" label="Marca/Model" />
+        <v-text-field v-model="dialogs.vehicle.model" label="Marca/Modelo" />
         <v-text-field v-model="dialogs.vehicle.year" label="Ano" class="my-3" />
         <v-select
           v-model="dialogs.vehicle.utility"
@@ -82,7 +83,49 @@
       :onClick="onAddMember"
       :model="showDialogMember"
     >
-      <template v-slot:content></template>
+      <template v-slot:content>
+        <v-text-field v-model="dialogs.members.name" label="Nome" />
+        <v-row>
+          <v-col cols="12" sm="6">
+            <v-text-field type="number" v-model="dialogs.members.age" label="Idade" />
+          </v-col>
+          <v-col cols="12" sm="6">
+            <v-select
+              :items="scholarity"
+              v-model="dialogs.members.scholarity"
+              label="Escolaridade"
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12" sm="6">
+            <v-select
+              v-model="dialogs.members.relationship"
+              label="Parentesco"
+              :items="relationships"
+            />
+          </v-col>
+          <v-col cols="12" sm="6">
+            <v-select
+              v-model="dialogs.members.civilStatus"
+              label="Estado Civil"
+              :items="civilStatus"
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12" sm="6">
+            <v-text-field v-model="dialogs.members.profession" label="Profissão" />
+          </v-col>
+          <v-col cols="12" sm="6">
+            <v-text-field
+              type="number"
+              v-model.number="dialogs.members.income"
+              label="Renda mensal (R$)"
+            />
+          </v-col>
+        </v-row>
+      </template>
     </Dialog>
   </v-layout>
 </template>
@@ -108,12 +151,26 @@ export default {
       ];
     },
 
+    // isInvalidMember() {},
+
     liveWith() {
       return family.liveWith;
     },
 
     housingTypes() {
       return family.housingTypes;
+    },
+
+    relationships() {
+      return family.relationships;
+    },
+
+    civilStatus() {
+      return family.civilStatus;
+    },
+
+    scholarity() {
+      return family.scholarity;
     }
   },
 
@@ -171,13 +228,7 @@ export default {
         members: [],
         vehicle: {
           has: false,
-          data: [
-            {
-              model: "Ford",
-              year: "2020",
-              utility: "Pessoal"
-            }
-          ]
+          data: []
         }
       },
       dialogs: {
@@ -211,11 +262,26 @@ export default {
     },
 
     onAddVehicle() {
+      this.family.vehicle.data.push(this.dialogs.vehicle);
+
+      this.dialogs.vehicle = {};
       this.showDialogVehicle = false;
     },
 
     onAddMember() {
+      this.family.members.push(this.dialogs.members);
+      this.dialogs.members = {};
       this.showDialogMember = false;
+    },
+
+    deleteItem(item, path) {
+      const index = this.family[path].indexOf(item);
+      confirm("Deseja mesmo remover este item?") &&
+        this.desserts.splice(index, 1);
+    },
+
+    onSubmit() {
+      this.$store.dispatch("candidate/setFamily", this.family);
     }
   }
 
