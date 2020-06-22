@@ -57,15 +57,16 @@
     </v-col>
 
     <v-row class="mt-4" align="center" justify="center">
-      <v-btn @click="onSubmit" large width="300px" class="primary lighten-2 white--text">Concluir</v-btn>
+      <v-btn
+        :disabled="isInvalidData"
+        @click="onSubmit"
+        large
+        width="300px"
+        class="primary lighten-2 white--text"
+      >Concluir</v-btn>
     </v-row>
 
-    <Dialog
-      @onCancel="showDialogVehicle=false"
-      :disabled="false"
-      :onClick="onAddVehicle"
-      :model="showDialogVehicle"
-    >
+    <Dialog @onCancel="showDialogVehicle=false" :onClick="onAddVehicle" :model="showDialogVehicle">
       <template v-slot:content>
         <v-text-field v-model="dialogs.vehicle.model" label="Marca/Modelo" />
         <v-text-field v-model="dialogs.vehicle.year" label="Ano" class="my-3" />
@@ -77,12 +78,7 @@
       </template>
     </Dialog>
 
-    <Dialog
-      @onCancel="showDialogMember=false"
-      :disabled="false"
-      :onClick="onAddMember"
-      :model="showDialogMember"
-    >
+    <Dialog @onCancel="showDialogMember=false" :onClick="onAddMember" :model="showDialogMember">
       <template v-slot:content>
         <v-text-field v-model="dialogs.members.name" label="Nome" />
         <v-row>
@@ -171,6 +167,15 @@ export default {
 
     scholarity() {
       return family.scholarity;
+    },
+
+    isInvalidData() {
+      if (this.family.vehicle.has && !this.family.vehicle.data.length) {
+        return true;
+      } else if (!this.family.members.length) {
+        return true;
+      }
+      return false;
     }
   },
 
@@ -274,14 +279,16 @@ export default {
       this.showDialogMember = false;
     },
 
-    deleteItem(item, path) {
-      const index = this.family[path].indexOf(item);
-      confirm("Deseja mesmo remover este item?") &&
-        this.desserts.splice(index, 1);
+    deleteItem() {
+      // const index = this.family[path].indexOf(item);
+      // confirm("Deseja mesmo remover este item?") &&
+      //   this.desserts.splice(index, 1);
     },
 
     onSubmit() {
       this.$store.dispatch("candidate/setFamily", this.family);
+
+      this.$router.push("/send");
     }
   }
 
