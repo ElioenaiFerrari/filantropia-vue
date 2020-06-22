@@ -287,7 +287,6 @@ export default {
 
     onSubmit() {
       this.$store.dispatch("candidate/setFamily", this.family);
-
       this.$router.push("/send");
     }
   }

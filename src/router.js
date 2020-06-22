@@ -4,7 +4,6 @@ import Candidate from '@/views/Candidate'
 import Courses from '@/views/Courses'
 import Questionnaire from '@/views/Questionnaire'
 import Family from '@/views/Family'
-import Send from '@/views/Send'
 
 Vue.use(VueRouter);
 
@@ -26,9 +25,6 @@ export default new VueRouter({
       path: '/family',
       component: Family,
     },
-    {
-      path: '/send',
-      component: Send,
-    }
+
   ],
 });
