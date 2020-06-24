@@ -1,9 +1,7 @@
 <template>
   <v-toolbar :elevation="2" class="primary">
     <v-toolbar-title>
-      <span class="headline white--text"
-        >Bolsa filantropia - processo seletivo {{ year }}</span
-      >
+      <span class="headline white--text">Bolsa filantropia - processo seletivo {{ year }}</span>
     </v-toolbar-title>
   </v-toolbar>
 </template>
@@ -15,8 +13,8 @@ export default {
       const date = new Date();
 
       return date.getFullYear();
-    },
-  },
+    }
+  }
 };
 </script>
 
